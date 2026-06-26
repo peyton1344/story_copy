@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เว็บกด Copy ทีละตอน</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f4f7fb;
+      color: #172033;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 14px 14px 12px;
+      background: rgba(244, 247, 251, 0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #dbe4f0;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+
+    .sub {
+      margin: 0;
+      font-size: 13px;
+      color: #5b667a;
+      line-height: 1.45;
+    }
+
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 14px;
+    }
+
+    .panel {
+      background: #ffffff;
+      border: 1px solid #dbe4f0;
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 8px 24px rgba(20, 30, 55, 0.06);
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 220px;
+      resize: vertical;
+      border: 1px solid #cbd7e7;
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 16px;
+      line-height: 1.6;
+      outline: none;
+      background: #fbfdff;
+      color: #172033;
+    }
+
+    textarea:focus,
+    input:focus,
+    select:focus {
+      border-color: #5b8cff;
+      box-shadow: 0 0 0 3px rgba(91, 140, 255, 0.15);
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 11px 13px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #1f6fff;
+      color: #ffffff;
+      min-height: 44px;
+    }
+
+    button.secondary {
+      background: #eaf1ff;
+      color: #1958c8;
+    }
+
+    button.danger {
+      background: #ffe9e9;
+      color: #b42323;
+    }
+
+    button.gray {
+      background: #edf1f7;
+      color: #2e3a4f;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .mini {
+      font-size: 12px;
+      color: #6a7486;
+      margin-top: 8px;
+      line-height: 1.45;
+    }
+
+    .tools {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      border: 1px solid #cbd7e7;
+      border-radius: 12px;
+      padding: 11px 12px;
+      font-size: 15px;
+      background: #ffffff;
+      color: #172033;
+      min-height: 44px;
+    }
+
+    .count {
+      color: #5b667a;
+      font-size: 13px;
+      margin: 8px 0 0;
+    }
+
+    .episode {
+      background: #ffffff;
+      border: 1px solid #dbe4f0;
+      border-radius: 18px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(20, 30, 55, 0.05);
+    }
+
+    .episode-head {
+      padding: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      background: #f9fbff;
+      border-bottom: 1px solid #e5edf7;
+    }
+
+    .episode-title {
+      font-weight: 800;
+      line-height: 1.35;
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .episode-body {
+      padding: 13px;
+      white-space: pre-wrap;
+      line-height: 1.75;
+      font-size: 16px;
+      max-height: 360px;
+      overflow: auto;
+    }
+
+    .episode-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .small-btn {
+      padding: 9px 11px;
+      font-size: 14px;
+      min-height: 40px;
+      border-radius: 11px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: #14213d;
+      color: #ffffff;
+      padding: 11px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.2s;
+      z-index: 100;
+      max-width: calc(100vw - 28px);
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      bottom: 26px;
+    }
+
+    .empty {
+      text-align: center;
+      color: #6a7486;
+      padding: 28px 10px;
+      border: 1px dashed #cbd7e7;
+      border-radius: 18px;
+      background: #ffffff;
+    }
+
+    @media (min-width: 720px) {
+      h1 {
+        font-size: 24px;
+      }
+
+      .tools {
+        grid-template-columns: 1fr 190px;
+      }
+
+      textarea {
+        min-height: 280px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>เว็บกด Copy ทีละตอน</h1>
+    <p class="sub">วางข้อความทั้งหมด แล้วกด “สร้างรายการตอน” จากนั้นกด Copy ตอนที่ต้องการได้เลย เหมาะกับใช้บนโทรศัพท์</p>
+  </header>
+
+  <main>
+    <section class="panel">
+      <label for="rawText">วางเนื้อหาทั้งหมดตรงนี้</label>
+      <textarea id="rawText" placeholder="ตัวอย่าง:
+
+ตอน: ลิเมียเริ่มเดินเกมฟื้น...
+เนื้อหาตอนที่ 1...
+
+ตอน: คุซึโนะฮะสะสมมาคิก...
+เนื้อหาตอนที่ 2...
+
+ตอนพิเศษ: การตั้งรากฐาน...
+เนื้อหาตอนพิเศษ..."></textarea>
+
+      <div class="row">
+        <button id="buildBtn">สร้างรายการตอน</button>
+        <button id="saveBtn" class="secondary">บันทึกไว้ในเครื่อง</button>
+        <button id="copyAllBtn" class="gray">Copy ทั้งหมด</button>
+        <button id="clearBtn" class="danger">ล้างทั้งหมด</button>
+      </div>
+
+      <p class="mini">
+        วิธีแยกตอน: ให้หัวข้อตอนขึ้นต้นด้วยคำว่า <b>ตอน:</b> หรือ <b>ตอนพิเศษ:</b> โปรแกรมจะแยกให้อัตโนมัติ
+      </p>
+    </section>
+
+    <section class="panel">
+      <div class="tools">
+        <input id="searchBox" type="search" placeholder="ค้นหาชื่อตอนหรือเนื้อหา..." />
+        <select id="voiceSelect">
+          <option value="">เสียงอ่าน TTS: ใช้เสียงเริ่มต้น</option>
+        </select>
+      </div>
+      <div class="row">
+        <button id="stopReadBtn" class="gray">หยุดอ่านเสียง</button>
+        <button id="saveReadBtn" class="secondary">บันทึกตอนที่อ่านล่าสุด</button>
+        <button id="openLastBtn" class="secondary">ไปตอนที่อ่านล่าสุด</button>
+      </div>
+      <p id="countText" class="count">ยังไม่มีตอน</p>
+    </section>
+
+    <section id="episodes"></section>
+  </main>
+
+  <div id="toast" class="toast">คัดลอกแล้ว</div>
+
+  <script>
+    const rawText = document.getElementById("rawText");
+    const buildBtn = document.getElementById("buildBtn");
+    const saveBtn = document.getElementById("saveBtn");
+    const copyAllBtn = document.getElementById("copyAllBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const searchBox = document.getElementById("searchBox");
+    const episodesWrap = document.getElementById("episodes");
+    const countText = document.getElementById("countText");
+    const toast = document.getElementById("toast");
+    const voiceSelect = document.getElementById("voiceSelect");
+    const stopReadBtn = document.getElementById("stopReadBtn");
+    const saveReadBtn = document.getElementById("saveReadBtn");
+    const openLastBtn = document.getElementById("openLastBtn");
+
+    const STORAGE_TEXT = "novel_copy_raw_text_v1";
+    const STORAGE_LAST = "novel_copy_last_episode_v1";
+
+    let episodes = [];
+    let currentReadingIndex = -1;
+    let voices = [];
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 1600);
+    }
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast("คัดลอกแล้ว");
+      } catch (e) {
+        const temp = document.createElement("textarea");
+        temp.value = text;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand("copy");
+        document.body.removeChild(temp);
+        showToast("คัดลอกแล้ว");
+      }
+    }
+
+    function parseEpisodes(text) {
+      const normalized = text.replace(/\r\n/g, "\n").trim();
+      if (!normalized) return [];
+
+      const lines = normalized.split("\n");
+      const result = [];
+      let currentTitle = "";
+      let currentBody = [];
+
+      const titlePattern = /^(ตอน(?:พิเศษ)?\s*[:：].+|ตอนที่\s*\d+.+)$/i;
+
+      for (const line of lines) {
+        const cleanLine = line.trim();
+
+        if (titlePattern.test(cleanLine)) {
+          if (currentTitle || currentBody.length) {
+            result.push({
+              title: currentTitle || "ตอนที่ " + (result.length + 1),
+              body: currentBody.join("\n").trim()
+            });
+          }
+          currentTitle = cleanLine;
+          currentBody = [];
+        } else {
+          currentBody.push(line);
+        }
+      }
+
+      if (currentTitle || currentBody.length) {
+        result.push({
+          title: currentTitle || "ตอนที่ " + (result.length + 1),
+          body: currentBody.join("\n").trim()
+        });
+      }
+
+      if (result.length === 0 && normalized) {
+        result.push({
+          title: "ตอนที่ 1",
+          body: normalized
+        });
+      }
+
+      return result.filter(ep => ep.title.trim() || ep.body.trim());
+    }
+
+    function renderEpisodes() {
+      const query = searchBox.value.trim().toLowerCase();
+      episodesWrap.innerHTML = "";
+
+      const filtered = episodes
+        .map((ep, index) => ({ ...ep, index }))
+        .filter(ep => {
+          const text = (ep.title + "\n" + ep.body).toLowerCase();
+          return !query || text.includes(query);
+        });
+
+      countText.textContent = episodes.length
+        ? "ทั้งหมด " + episodes.length + " ตอน | กำลังแสดง " + filtered.length + " ตอน"
+        : "ยังไม่มีตอน";
+
+      if (!filtered.length) {
+        episodesWrap.innerHTML = '<div class="empty">ไม่เจอตอนที่ค้นหา หรือยังไม่ได้สร้างรายการตอน</div>';
+        return;
+      }
+
+      filtered.forEach(ep => {
+        const card = document.createElement("article");
+        card.className = "episode";
+        card.id = "episode-" + ep.index;
+
+        const fullText = ep.title + "\n\n" + ep.body;
+
+        const head = document.createElement("div");
+        head.className = "episode-head";
+
+        const title = document.createElement("div");
+        title.className = "episode-title";
+        title.textContent = ep.title;
+
+        const actions = document.createElement("div");
+        actions.className = "episode-actions";
+
+        const copyBtn = document.createElement("button");
+        copyBtn.className = "small-btn";
+        copyBtn.textContent = "Copy ตอนนี้";
+        copyBtn.onclick = () => copyText(fullText);
+
+        const readBtn = document.createElement("button");
+        readBtn.className = "small-btn secondary";
+        readBtn.textContent = "อ่านเสียง";
+        readBtn.onclick = () => readEpisode(ep.index);
+
+        const collapseBtn = document.createElement("button");
+        collapseBtn.className = "small-btn gray";
+        collapseBtn.textContent = "ซ่อน/แสดง";
+        collapseBtn.onclick = () => body.classList.toggle("hidden");
+
+        actions.appendChild(copyBtn);
+        actions.appendChild(readBtn);
+        actions.appendChild(collapseBtn);
+
+        head.appendChild(title);
+        head.appendChild(actions);
+
+        const body = document.createElement("div");
+        body.className = "episode-body";
+        body.textContent = ep.body || "(ไม่มีเนื้อหา)";
+
+        card.appendChild(head);
+        card.appendChild(body);
+        episodesWrap.appendChild(card);
+      });
+    }
+
+    function buildEpisodes() {
+      episodes = parseEpisodes(rawText.value);
+      localStorage.setItem(STORAGE_TEXT, rawText.value);
+      renderEpisodes();
+      showToast("สร้างรายการตอนแล้ว");
+    }
+
+    function saveText() {
+      localStorage.setItem(STORAGE_TEXT, rawText.value);
+      showToast("บันทึกไว้ในเครื่องแล้ว");
+    }
+
+    function clearAll() {
+      const ok = confirm("ล้างข้อความและตอนทั้งหมดใช่ไหม?");
+      if (!ok) return;
+
+      rawText.value = "";
+      episodes = [];
+      localStorage.removeItem(STORAGE_TEXT);
+      localStorage.removeItem(STORAGE_LAST);
+      renderEpisodes();
+      showToast("ล้างแล้ว");
+    }
+
+    function copyAll() {
+      const text = rawText.value.trim();
+      if (!text) {
+        showToast("ยังไม่มีข้อความให้คัดลอก");
+        return;
+      }
+      copyText(text);
+    }
+
+    function loadVoices() {
+      if (!("speechSynthesis" in window)) {
+        voiceSelect.innerHTML = '<option value="">เครื่องนี้ไม่รองรับ TTS</option>';
+        return;
+      }
+
+      voices = speechSynthesis.getVoices();
+      voiceSelect.innerHTML = '<option value="">เสียงอ่าน TTS: ใช้เสียงเริ่มต้น</option>';
+
+      voices.forEach((voice, index) => {
+        const option = document.createElement("option");
+        option.value = String(index);
+        option.textContent = voice.name + " (" + voice.lang + ")";
+        if (voice.lang.toLowerCase().startsWith("th")) {
+          option.textContent = "ไทย - " + option.textContent;
+        }
+        voiceSelect.appendChild(option);
+      });
+    }
+
+    function readEpisode(index) {
+      if (!("speechSynthesis" in window)) {
+        showToast("เครื่องนี้ไม่รองรับ TTS");
+        return;
+      }
+
+      const ep = episodes[index];
+      if (!ep) return;
+
+      speechSynthesis.cancel();
+
+      currentReadingIndex = index;
+      localStorage.setItem(STORAGE_LAST, String(index));
+
+      const utterance = new SpeechSynthesisUtterance(ep.title + "\n\n" + ep.body);
+      utterance.lang = "th-TH";
+      utterance.rate = 0.95;
+      utterance.pitch = 1;
+
+      const selectedIndex = voiceSelect.value;
+      if (selectedIndex !== "" && voices[Number(selectedIndex)]) {
+        utterance.voice = voices[Number(selectedIndex)];
+      } else {
+        const thaiVoice = voices.find(v => v.lang.toLowerCase().startsWith("th"));
+        if (thaiVoice) utterance.voice = thaiVoice;
+      }
+
+      speechSynthesis.speak(utterance);
+      showToast("เริ่มอ่านเสียง");
+    }
+
+    function stopReading() {
+      if ("speechSynthesis" in window) speechSynthesis.cancel();
+      showToast("หยุดอ่านแล้ว");
+    }
+
+    function saveLastRead() {
+      if (currentReadingIndex < 0) {
+        showToast("ยังไม่ได้อ่านตอนใด");
+        return;
+      }
+      localStorage.setItem(STORAGE_LAST, String(currentReadingIndex));
+      showToast("บันทึกตอนล่าสุดแล้ว");
+    }
+
+    function openLastRead() {
+      const last = Number(localStorage.getItem(STORAGE_LAST));
+      if (!Number.isInteger(last) || last < 0 || last >= episodes.length) {
+        showToast("ยังไม่มีตอนล่าสุด");
+        return;
+      }
+
+      const card = document.getElementById("episode-" + last);
+      if (card) {
+        card.scrollIntoView({ behavior: "smooth", block: "start" });
+        showToast("ไปตอนล่าสุดแล้ว");
+      }
+    }
+
+    buildBtn.addEventListener("click", buildEpisodes);
+    saveBtn.addEventListener("click", saveText);
+    clearBtn.addEventListener("click", clearAll);
+    copyAllBtn.addEventListener("click", copyAll);
+    searchBox.addEventListener("input", renderEpisodes);
+    stopReadBtn.addEventListener("click", stopReading);
+    saveReadBtn.addEventListener("click", saveLastRead);
+    openLastBtn.addEventListener("click", openLastRead);
+
+    window.addEventListener("beforeunload", () => {
+      localStorage.setItem(STORAGE_TEXT, rawText.value);
+    });
+
+    if ("speechSynthesis" in window) {
+      speechSynthesis.onvoiceschanged = loadVoices;
+      loadVoices();
+    }
+
+    const savedText = localStorage.getItem(STORAGE_TEXT);
+    if (savedText) {
+      rawText.value = savedText;
+      episodes = parseEpisodes(savedText);
+      renderEpisodes();
+    } else {
+      renderEpisodes();
+    }
+  </script>
+</body>
+</html>
