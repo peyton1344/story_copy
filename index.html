@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>เว็บกด Copy ทีละตอน</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Copy ทีละตอน</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -27,77 +25,57 @@
     }
 
     h1 {
-      margin: 0 0 8px;
+      margin: 0 0 6px;
       font-size: 20px;
     }
 
     .sub {
       margin: 0;
-      font-size: 13px;
       color: #5b667a;
+      font-size: 13px;
       line-height: 1.45;
     }
 
     main {
-      max-width: 980px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 14px;
     }
 
-    .panel {
+    .panel,
+    .main-title-box {
       background: #ffffff;
       border: 1px solid #dbe4f0;
       border-radius: 18px;
       padding: 14px;
-      box-shadow: 0 8px 24px rgba(20, 30, 55, 0.06);
       margin-bottom: 14px;
+      box-shadow: 0 8px 24px rgba(20, 30, 55, 0.06);
     }
 
-    label {
-      display: block;
-      font-weight: 700;
-      margin-bottom: 8px;
-      font-size: 15px;
-    }
-
-    textarea {
+    button,
+    input[type="file"],
+    input[type="search"] {
       width: 100%;
-      min-height: 220px;
-      resize: vertical;
+      min-height: 44px;
+      font-size: 15px;
+      border-radius: 12px;
+    }
+
+    input[type="search"] {
       border: 1px solid #cbd7e7;
-      border-radius: 14px;
-      padding: 12px;
-      font-size: 16px;
-      line-height: 1.6;
+      padding: 11px 12px;
       outline: none;
-      background: #fbfdff;
+      background: #ffffff;
       color: #172033;
-    }
-
-    textarea:focus,
-    input:focus {
-      border-color: #5b8cff;
-      box-shadow: 0 0 0 3px rgba(91, 140, 255, 0.15);
-    }
-
-    .row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-top: 10px;
     }
 
     button {
       border: 0;
-      border-radius: 12px;
-      padding: 11px 13px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
       background: #1f6fff;
       color: #ffffff;
-      min-height: 44px;
+      font-weight: 700;
+      padding: 11px 13px;
+      cursor: pointer;
     }
 
     button.secondary {
@@ -105,100 +83,156 @@
       color: #1958c8;
     }
 
+    button.gray {
+      background: #edf1f7;
+      color: #2e3a4f;
+    }
+
     button.danger {
       background: #ffe9e9;
       color: #b42323;
     }
 
-    button.gray {
-      background: #edf1f7;
-      color: #2e3a4f;
+    button.read {
+      background: #e9f9ef;
+      color: #137333;
+    }
+
+    button.unread {
+      background: #fff4db;
+      color: #9a5b00;
     }
 
     button:active {
       transform: scale(0.98);
     }
 
-    .mini {
-      font-size: 12px;
-      color: #6a7486;
-      margin-top: 8px;
-      line-height: 1.45;
-    }
-
-    input {
-      width: 100%;
-      border: 1px solid #cbd7e7;
-      border-radius: 12px;
-      padding: 11px 12px;
-      font-size: 15px;
-      background: #ffffff;
-      color: #172033;
-      min-height: 44px;
+    .row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 10px;
     }
 
     .count {
       color: #5b667a;
       font-size: 13px;
-      margin: 8px 0 0;
+      line-height: 1.45;
+      margin: 10px 0 0;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 180px;
+      border: 1px solid #cbd7e7;
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 16px;
+      line-height: 1.6;
+      resize: vertical;
+      outline: none;
+      background: #fbfdff;
+      color: #172033;
+    }
+
+    details {
+      margin-top: 10px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: #1958c8;
+      padding: 8px 0;
+    }
+
+    .main-title-label {
+      font-size: 13px;
+      color: #5b667a;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .main-title {
+      font-size: 18px;
+      line-height: 1.55;
+      font-weight: 900;
+      white-space: pre-wrap;
     }
 
     .episode {
       background: #ffffff;
       border: 1px solid #dbe4f0;
-      border-radius: 18px;
-      margin-bottom: 12px;
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(20, 30, 55, 0.05);
+      border-radius: 16px;
+      padding: 12px;
+      margin-bottom: 10px;
+      box-shadow: 0 6px 18px rgba(20, 30, 55, 0.04);
+    }
+
+    .episode.section {
+      border-color: #cbd7e7;
+      background: #f8fbff;
     }
 
     .episode.copied {
       border-color: #1f6fff;
-      box-shadow: 0 8px 26px rgba(31, 111, 255, 0.18);
+      box-shadow: 0 8px 22px rgba(31, 111, 255, 0.16);
     }
 
-    .episode-head {
-      padding: 12px;
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      background: #f9fbff;
-      border-bottom: 1px solid #e5edf7;
+    .episode.done {
+      opacity: 0.72;
+      background: #fbfffc;
     }
 
-    .episode-title {
+    .title {
       font-weight: 800;
-      line-height: 1.35;
-      flex: 1;
-      min-width: 180px;
+      line-height: 1.45;
+      margin-bottom: 10px;
     }
 
-    .episode-body {
-      padding: 13px;
-      white-space: pre-wrap;
-      line-height: 1.75;
-      font-size: 16px;
-      max-height: 360px;
-      overflow: auto;
+    .section-title {
+      font-size: 17px;
+      font-weight: 900;
+      color: #172033;
     }
 
-    .episode-actions {
-      display: flex;
+    .title.done-title {
+      text-decoration: line-through;
+      color: #5b667a;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 8px;
-      flex-wrap: wrap;
     }
 
-    .small-btn {
-      padding: 9px 11px;
-      font-size: 14px;
-      min-height: 40px;
-      border-radius: 11px;
+    .small {
+      font-size: 13px;
+      min-height: 38px;
+      padding: 8px 8px;
+      border-radius: 10px;
     }
 
-    .hidden {
-      display: none;
+    .preview {
+      white-space: pre-wrap;
+      line-height: 1.7;
+      max-height: 280px;
+      overflow: auto;
+      border: 1px solid #dbe4f0;
+      border-radius: 14px;
+      padding: 12px;
+      background: #fbfdff;
+      font-size: 15px;
+    }
+
+    .empty {
+      text-align: center;
+      color: #6a7486;
+      padding: 28px 10px;
+      border: 1px dashed #cbd7e7;
+      border-radius: 18px;
+      background: #ffffff;
     }
 
     .toast {
@@ -225,326 +259,585 @@
       bottom: 26px;
     }
 
-    .empty {
-      text-align: center;
-      color: #6a7486;
-      padding: 28px 10px;
-      border: 1px dashed #cbd7e7;
-      border-radius: 18px;
-      background: #ffffff;
-    }
-
     @media (min-width: 720px) {
-      h1 {
-        font-size: 24px;
+      .row {
+        grid-template-columns: repeat(3, 1fr);
       }
 
-      textarea {
-        min-height: 280px;
+      .actions {
+        grid-template-columns: 130px 130px 130px;
       }
     }
   </style>
 </head>
+
 <body>
   <header>
-    <h1>เว็บกด Copy ทีละตอน</h1>
-    <p class="sub">วางข้อความทั้งหมด แล้วกด “สร้างรายการตอน” จากนั้นกด Copy ตอนที่ต้องการได้เลย</p>
+    <h1>Copy ทีละตอน</h1>
+    <p class="sub">ทุกบล็อกที่แยกได้จะกด Copy ได้หมด และคงรูปแบบบรรทัดเหมือนต้นฉบับ</p>
   </header>
 
   <main>
     <section class="panel">
-      <label for="rawText">วางเนื้อหาทั้งหมดตรงนี้</label>
-      <textarea id="rawText" placeholder="ตัวอย่าง:
-
-ตอน: ลิเมียเริ่มเดินเกมฟื้น...
-เนื้อหาตอนที่ 1...
-
-ตอน: คุซึโนะฮะสะสมมาคิก...
-เนื้อหาตอนที่ 2...
-
-ตอนพิเศษ: การตั้งรากฐาน...
-เนื้อหาตอนพิเศษ..."></textarea>
+      <input id="fileInput" type="file" accept=".txt,text/plain">
 
       <div class="row">
-        <button id="buildBtn">สร้างรายการตอน</button>
-        <button id="saveBtn" class="secondary">บันทึกไว้ในเครื่อง</button>
-        <button id="goLastCopiedBtn" class="secondary">ไปตอนที่คัดลอกล่าสุด</button>
-        <button id="copyAllBtn" class="gray">Copy ทั้งหมด</button>
-        <button id="clearBtn" class="danger">ล้างทั้งหมด</button>
+        <button id="clipboardBtn" class="secondary">นำเข้าจาก Clipboard</button>
+        <button id="goLastBtn" class="secondary">ไปอันที่คัดลอกล่าสุด</button>
+        <button id="showUnreadBtn" class="gray">แสดงเฉพาะยังไม่อ่าน</button>
       </div>
 
-      <p class="mini">
-        วิธีแยกตอน: ให้หัวข้อตอนขึ้นต้นด้วยคำว่า <b>ตอน:</b>, <b>ตอนที่ 1</b> หรือ <b>ตอนพิเศษ:</b>
-      </p>
+      <details>
+        <summary>วางข้อความยาวเอง</summary>
+        <textarea id="pasteBox" placeholder="วางข้อความทั้งหมดตรงนี้ แล้วกดสร้างจากข้อความ"></textarea>
+        <div class="row">
+          <button id="pasteBuildBtn">สร้างจากข้อความที่วาง</button>
+          <button id="clearPasteBtn" class="gray">ล้างช่องวางข้อความ</button>
+          <button id="clearBtn" class="danger">ล้างข้อมูลทั้งหมด</button>
+        </div>
+      </details>
+
+      <p class="count">วิธีแยกตอน: หัวข้อตอนควรขึ้นต้นด้วย “ตอน:”, “ตอนที่ 1” หรือ “ตอนพิเศษ:”</p>
+      <p class="count">หัวข้อพิเศษ เช่น “บทส่งท้าย”, “บทสรุปรวมท้ายเล่ม”, “ภาคผนวก”, “คำนำ”, “หมายเหตุ” จะแยกออกมา และกด Copy ได้ทั้งหมด</p>
+      <p class="count">หัวข้อใหญ่ก่อนตอนแรก เช่น “สปอยล์...เล่ม 11” จะเป็นหัวข้อใหญ่ ไม่มีปุ่ม Copy</p>
+      <p id="status" class="count">ยังไม่มีข้อมูล</p>
+      <p id="lastText" class="count">ยังไม่มีรายการที่คัดลอกล่าสุด</p>
+      <p id="readText" class="count">อ่านแล้ว 0 รายการ</p>
     </section>
 
     <section class="panel">
-      <input id="searchBox" type="search" placeholder="ค้นหาชื่อตอนหรือเนื้อหา..." />
-      <p id="countText" class="count">ยังไม่มีตอน</p>
-      <p id="lastCopiedText" class="count">ยังไม่มีตอนที่คัดลอกล่าสุด</p>
+      <input id="searchBox" type="search" placeholder="ค้นหาชื่อตอนหรือหัวข้อ...">
     </section>
 
-    <section id="episodes"></section>
+    <section id="mainTitlePanel" class="main-title-box" style="display:none;">
+      <div class="main-title-label">หัวข้อใหญ่</div>
+      <div id="mainTitleText" class="main-title"></div>
+    </section>
+
+    <section id="previewPanel" class="panel" style="display:none;">
+      <div id="previewTitle" class="title"></div>
+      <div id="previewBody" class="preview"></div>
+    </section>
+
+    <section id="list"></section>
   </main>
 
   <div id="toast" class="toast">คัดลอกแล้ว</div>
 
   <script>
-    const rawText = document.getElementById("rawText");
-    const buildBtn = document.getElementById("buildBtn");
-    const saveBtn = document.getElementById("saveBtn");
-    const copyAllBtn = document.getElementById("copyAllBtn");
+    const fileInput = document.getElementById("fileInput");
+    const clipboardBtn = document.getElementById("clipboardBtn");
+    const pasteBox = document.getElementById("pasteBox");
+    const pasteBuildBtn = document.getElementById("pasteBuildBtn");
+    const clearPasteBtn = document.getElementById("clearPasteBtn");
+    const goLastBtn = document.getElementById("goLastBtn");
     const clearBtn = document.getElementById("clearBtn");
-    const goLastCopiedBtn = document.getElementById("goLastCopiedBtn");
+    const showUnreadBtn = document.getElementById("showUnreadBtn");
     const searchBox = document.getElementById("searchBox");
-    const episodesWrap = document.getElementById("episodes");
-    const countText = document.getElementById("countText");
-    const lastCopiedText = document.getElementById("lastCopiedText");
+    const statusEl = document.getElementById("status");
+    const lastText = document.getElementById("lastText");
+    const readText = document.getElementById("readText");
+    const list = document.getElementById("list");
     const toast = document.getElementById("toast");
+    const mainTitlePanel = document.getElementById("mainTitlePanel");
+    const mainTitleText = document.getElementById("mainTitleText");
+    const previewPanel = document.getElementById("previewPanel");
+    const previewTitle = document.getElementById("previewTitle");
+    const previewBody = document.getElementById("previewBody");
 
-    const STORAGE_TEXT = "novel_copy_raw_text_v2";
-    const STORAGE_LAST_COPIED = "novel_copy_last_copied_v2";
-
+    let mainTitle = "";
     let episodes = [];
+    let lastCopied = -1;
+    let readMap = {};
+    let onlyUnread = false;
 
-    function showToast(message) {
-      toast.textContent = message;
+    function showToast(text) {
+      toast.textContent = text;
       toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 1600);
+      setTimeout(() => toast.classList.remove("show"), 1500);
     }
 
-    async function copyText(text, index = null) {
+    function openDb() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open("copy_episode_reader_section_copy_db_v1", 1);
+
+        req.onupgradeneeded = () => {
+          const db = req.result;
+
+          if (!db.objectStoreNames.contains("store")) {
+            db.createObjectStore("store");
+          }
+        };
+
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function saveValue(key, value) {
+      const db = await openDb();
+
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction("store", "readwrite");
+        tx.objectStore("store").put(value, key);
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    async function loadValue(key) {
+      const db = await openDb();
+
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction("store", "readonly");
+        const req = tx.objectStore("store").get(key);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function deleteValue(key) {
+      const db = await openDb();
+
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction("store", "readwrite");
+        tx.objectStore("store").delete(key);
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    function isEpisodeTitle(line) {
+      const clean = line.trim();
+      const titlePattern = /^(ตอน(?:พิเศษ)?\s*[:：].+|ตอนที่\s*\d+.+)$/i;
+
+      return titlePattern.test(clean);
+    }
+
+    function isSpecialSectionTitle(line) {
+      const clean = line.trim();
+
+      return /^(บทสรุป|บทสรุปรวมท้ายเล่ม|บทสรุปท้ายเล่ม|สรุปรวมท้ายเล่ม|สรุปท้ายเล่ม|บทส่งท้าย|ปัจฉิมบท|ภาคผนวก|คำนำ|หมายเหตุ|บทพิเศษท้ายเล่ม)(?:\s*\d+)?/i.test(clean);
+    }
+
+    function isBlockTitle(line) {
+      return isEpisodeTitle(line) || isSpecialSectionTitle(line);
+    }
+
+    async function parseEpisodesAsync(text) {
+      const normalized = text.replace(/\r\n/g, "\n").trim();
+
+      if (!normalized) {
+        return {
+          mainTitle: "",
+          episodes: []
+        };
+      }
+
+      const lines = normalized.split("\n");
+      const result = [];
+      const beforeFirstBlock = [];
+
+      let currentTitle = "";
+      let currentBody = [];
+      let currentType = "";
+      let foundFirstBlock = false;
+
+      function pushCurrentBlock() {
+        if (!currentTitle && !currentBody.length) return;
+
+        result.push({
+          type: currentType || "episode",
+          title: currentTitle || "ตอนที่ " + (result.length + 1),
+          body: currentBody.join("\n").trim()
+        });
+      }
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        const clean = line.trim();
+
+        if (isBlockTitle(clean)) {
+          if (!foundFirstBlock) {
+            foundFirstBlock = true;
+          }
+
+          pushCurrentBlock();
+
+          currentType = isEpisodeTitle(clean) ? "episode" : "section";
+          currentTitle = clean;
+          currentBody = [];
+        } else {
+          if (!foundFirstBlock) {
+            if (clean) {
+              beforeFirstBlock.push(line);
+            }
+          } else {
+            currentBody.push(line);
+          }
+        }
+
+        if (i % 700 === 0) {
+          statusEl.textContent = "กำลังแยกตอน... " + Math.round((i / lines.length) * 100) + "%";
+          await new Promise(resolve => setTimeout(resolve, 0));
+        }
+      }
+
+      pushCurrentBlock();
+
+      if (result.length === 0) {
+        return {
+          mainTitle: "",
+          episodes: [{
+            type: "episode",
+            title: "ตอนที่ 1",
+            body: normalized
+          }]
+        };
+      }
+
+      return {
+        mainTitle: beforeFirstBlock.join("\n").trim(),
+        episodes: result
+      };
+    }
+
+    async function buildFromText(text) {
+      if (!text || !text.trim()) {
+        showToast("ยังไม่มีข้อความ");
+        return;
+      }
+
+      statusEl.textContent = "กำลังเตรียมข้อความ...";
+      await new Promise(resolve => setTimeout(resolve, 50));
+
+      const parsed = await parseEpisodesAsync(text);
+
+      mainTitle = parsed.mainTitle;
+      episodes = parsed.episodes;
+      lastCopied = -1;
+      readMap = {};
+      onlyUnread = false;
+
+      await saveValue("mainTitle", mainTitle);
+      await saveValue("episodes", episodes);
+      await saveValue("lastCopied", lastCopied);
+      await saveValue("readMap", readMap);
+
+      pasteBox.value = "";
+      searchBox.value = "";
+      previewPanel.style.display = "none";
+      showUnreadBtn.textContent = "แสดงเฉพาะยังไม่อ่าน";
+
+      render();
+      showToast("สร้างรายการแล้ว");
+    }
+
+    function render() {
+      const q = searchBox.value.trim().toLowerCase();
+
+      list.innerHTML = "";
+
+      if (mainTitle) {
+        mainTitlePanel.style.display = "block";
+        mainTitleText.textContent = mainTitle;
+      } else {
+        mainTitlePanel.style.display = "none";
+        mainTitleText.textContent = "";
+      }
+
+      const filtered = episodes
+        .map((ep, index) => ({ ep, index }))
+        .filter(item => {
+          const matchSearch = !q || item.ep.title.toLowerCase().includes(q);
+          const matchUnread = !onlyUnread || !readMap[item.index];
+
+          return matchSearch && matchUnread;
+        });
+
+      const totalCount = episodes.length;
+
+      const readCount = episodes.reduce((count, ep, index) => {
+        return count + (readMap[index] ? 1 : 0);
+      }, 0);
+
+      statusEl.textContent = episodes.length
+        ? "ทั้งหมด " + episodes.length + " รายการ | แสดง " + filtered.length + " รายการ"
+        : "ยังไม่มีข้อมูล";
+
+      readText.textContent = totalCount
+        ? "อ่านแล้ว " + readCount + " รายการ | ยังไม่อ่าน " + Math.max(totalCount - readCount, 0) + " รายการ"
+        : "อ่านแล้ว 0 รายการ";
+
+      updateLastText();
+
+      if (!filtered.length) {
+        list.innerHTML = '<div class="empty">ไม่เจอรายการ หรือยังไม่ได้นำเข้าข้อมูล</div>';
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+
+      filtered.forEach(item => {
+        const isSection = item.ep.type === "section";
+        const isRead = !!readMap[item.index];
+
+        const card = document.createElement("article");
+        card.className = isSection ? "episode section" : "episode";
+        card.id = "ep-" + item.index;
+
+        if (item.index === lastCopied) {
+          card.classList.add("copied");
+        }
+
+        if (isRead) {
+          card.classList.add("done");
+        }
+
+        const title = document.createElement("div");
+        title.className = isSection ? "title section-title" : "title";
+
+        if (isRead) {
+          title.classList.add("done-title");
+        }
+
+        title.textContent = item.ep.title;
+
+        const actions = document.createElement("div");
+        actions.className = "actions";
+
+        const copyBtn = document.createElement("button");
+        copyBtn.className = "small";
+        copyBtn.textContent = "Copy";
+        copyBtn.onclick = () => copyEpisode(item.index);
+
+        const readBtn = document.createElement("button");
+        readBtn.className = isRead ? "small read" : "small unread";
+        readBtn.textContent = isRead ? "อ่านแล้ว" : "ยังไม่อ่าน";
+        readBtn.onclick = () => toggleRead(item.index);
+
+        const previewBtn = document.createElement("button");
+        previewBtn.className = "small gray";
+        previewBtn.textContent = "ดู";
+        previewBtn.onclick = () => previewEpisode(item.index);
+
+        actions.appendChild(copyBtn);
+        actions.appendChild(readBtn);
+        actions.appendChild(previewBtn);
+
+        card.appendChild(title);
+        card.appendChild(actions);
+        fragment.appendChild(card);
+      });
+
+      list.appendChild(fragment);
+    }
+
+    async function copyEpisode(index) {
+      const ep = episodes[index];
+
+      if (!ep) {
+        return;
+      }
+
+      const text = ep.title + "\n\n" + ep.body;
+
       try {
         await navigator.clipboard.writeText(text);
       } catch (e) {
         const temp = document.createElement("textarea");
         temp.value = text;
+        temp.style.position = "fixed";
+        temp.style.left = "-9999px";
         document.body.appendChild(temp);
         temp.select();
         document.execCommand("copy");
         document.body.removeChild(temp);
       }
 
-      if (index !== null) {
-        localStorage.setItem(STORAGE_LAST_COPIED, String(index));
-        updateLastCopiedText();
-        highlightCopied(index);
-      }
+      lastCopied = index;
+      await saveValue("lastCopied", lastCopied);
 
+      render();
       showToast("คัดลอกแล้ว");
     }
 
-    function parseEpisodes(text) {
-      const normalized = text.replace(/\r\n/g, "\n").trim();
-      if (!normalized) return [];
+    async function toggleRead(index) {
+      const ep = episodes[index];
 
-      const lines = normalized.split("\n");
-      const result = [];
-      let currentTitle = "";
-      let currentBody = [];
-
-      const titlePattern = /^(ตอน(?:พิเศษ)?\s*[:：].+|ตอนที่\s*\d+.+)$/i;
-
-      for (const line of lines) {
-        const cleanLine = line.trim();
-
-        if (titlePattern.test(cleanLine)) {
-          if (currentTitle || currentBody.length) {
-            result.push({
-              title: currentTitle || "ตอนที่ " + (result.length + 1),
-              body: currentBody.join("\n").trim()
-            });
-          }
-
-          currentTitle = cleanLine;
-          currentBody = [];
-        } else {
-          currentBody.push(line);
-        }
-      }
-
-      if (currentTitle || currentBody.length) {
-        result.push({
-          title: currentTitle || "ตอนที่ " + (result.length + 1),
-          body: currentBody.join("\n").trim()
-        });
-      }
-
-      if (result.length === 0 && normalized) {
-        result.push({
-          title: "ตอนที่ 1",
-          body: normalized
-        });
-      }
-
-      return result.filter(ep => ep.title.trim() || ep.body.trim());
-    }
-
-    function renderEpisodes() {
-      const query = searchBox.value.trim().toLowerCase();
-      episodesWrap.innerHTML = "";
-
-      const filtered = episodes
-        .map((ep, index) => ({ ...ep, index }))
-        .filter(ep => {
-          const text = (ep.title + "\n" + ep.body).toLowerCase();
-          return !query || text.includes(query);
-        });
-
-      countText.textContent = episodes.length
-        ? "ทั้งหมด " + episodes.length + " ตอน | กำลังแสดง " + filtered.length + " ตอน"
-        : "ยังไม่มีตอน";
-
-      updateLastCopiedText();
-
-      if (!filtered.length) {
-        episodesWrap.innerHTML = '<div class="empty">ไม่เจอตอนที่ค้นหา หรือยังไม่ได้สร้างรายการตอน</div>';
+      if (!ep) {
         return;
       }
 
-      filtered.forEach(ep => {
-        const card = document.createElement("article");
-        card.className = "episode";
-        card.id = "episode-" + ep.index;
+      readMap[index] = !readMap[index];
 
-        const lastCopied = Number(localStorage.getItem(STORAGE_LAST_COPIED));
-        if (lastCopied === ep.index) {
-          card.classList.add("copied");
-        }
+      if (!readMap[index]) {
+        delete readMap[index];
+      }
 
-        const fullText = ep.title + "\n\n" + ep.body;
+      await saveValue("readMap", readMap);
 
-        const head = document.createElement("div");
-        head.className = "episode-head";
+      render();
+      showToast(readMap[index] ? "บันทึกว่าอ่านแล้ว" : "เปลี่ยนเป็นยังไม่อ่าน");
+    }
 
-        const title = document.createElement("div");
-        title.className = "episode-title";
-        title.textContent = ep.title;
+    function previewEpisode(index) {
+      const ep = episodes[index];
 
-        const actions = document.createElement("div");
-        actions.className = "episode-actions";
+      if (!ep) {
+        return;
+      }
 
-        const copyBtn = document.createElement("button");
-        copyBtn.className = "small-btn";
-        copyBtn.textContent = "Copy ตอนนี้";
-        copyBtn.onclick = () => copyText(fullText, ep.index);
-
-        const collapseBtn = document.createElement("button");
-        collapseBtn.className = "small-btn gray";
-        collapseBtn.textContent = "ซ่อน/แสดง";
-        collapseBtn.onclick = () => body.classList.toggle("hidden");
-
-        actions.appendChild(copyBtn);
-        actions.appendChild(collapseBtn);
-
-        head.appendChild(title);
-        head.appendChild(actions);
-
-        const body = document.createElement("div");
-        body.className = "episode-body";
-        body.textContent = ep.body || "(ไม่มีเนื้อหา)";
-
-        card.appendChild(head);
-        card.appendChild(body);
-        episodesWrap.appendChild(card);
+      previewTitle.textContent = ep.title;
+      previewBody.textContent = ep.body || "(ไม่มีเนื้อหา)";
+      previewPanel.style.display = "block";
+      previewPanel.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
       });
     }
 
-    function buildEpisodes() {
-      episodes = parseEpisodes(rawText.value);
-      localStorage.setItem(STORAGE_TEXT, rawText.value);
-      renderEpisodes();
-      showToast("สร้างรายการตอนแล้ว");
-    }
-
-    function saveText() {
-      localStorage.setItem(STORAGE_TEXT, rawText.value);
-      showToast("บันทึกไว้ในเครื่องแล้ว");
-    }
-
-    function clearAll() {
-      const ok = confirm("ล้างข้อความและตอนทั้งหมดใช่ไหม?");
-      if (!ok) return;
-
-      rawText.value = "";
-      episodes = [];
-      localStorage.removeItem(STORAGE_TEXT);
-      localStorage.removeItem(STORAGE_LAST_COPIED);
-      renderEpisodes();
-      showToast("ล้างแล้ว");
-    }
-
-    function copyAll() {
-      const text = rawText.value.trim();
-      if (!text) {
-        showToast("ยังไม่มีข้อความให้คัดลอก");
-        return;
-      }
-      copyText(text);
-    }
-
-    function updateLastCopiedText() {
-      const lastCopied = Number(localStorage.getItem(STORAGE_LAST_COPIED));
-
-      if (!Number.isInteger(lastCopied) || lastCopied < 0 || lastCopied >= episodes.length) {
-        lastCopiedText.textContent = "ยังไม่มีตอนที่คัดลอกล่าสุด";
+    function updateLastText() {
+      if (lastCopied < 0 || !episodes[lastCopied]) {
+        lastText.textContent = "ยังไม่มีรายการที่คัดลอกล่าสุด";
         return;
       }
 
-      lastCopiedText.textContent = "คัดลอกล่าสุด: " + episodes[lastCopied].title;
-    }
-
-    function highlightCopied(index) {
-      document.querySelectorAll(".episode").forEach(card => {
-        card.classList.remove("copied");
-      });
-
-      const card = document.getElementById("episode-" + index);
-      if (card) {
-        card.classList.add("copied");
-      }
+      lastText.textContent = "คัดลอกล่าสุด: " + episodes[lastCopied].title;
     }
 
     function goLastCopied() {
-      const lastCopied = Number(localStorage.getItem(STORAGE_LAST_COPIED));
-
-      if (!Number.isInteger(lastCopied) || lastCopied < 0 || lastCopied >= episodes.length) {
-        showToast("ยังไม่มีตอนที่คัดลอกล่าสุด");
+      if (lastCopied < 0 || !episodes[lastCopied]) {
+        showToast("ยังไม่มีรายการที่คัดลอกล่าสุด");
         return;
       }
 
       searchBox.value = "";
-      renderEpisodes();
+      onlyUnread = false;
+      showUnreadBtn.textContent = "แสดงเฉพาะยังไม่อ่าน";
+
+      render();
 
       setTimeout(() => {
-        const card = document.getElementById("episode-" + lastCopied);
-        if (card) {
-          card.scrollIntoView({ behavior: "smooth", block: "start" });
-          card.classList.add("copied");
-          showToast("ไปตอนที่คัดลอกล่าสุดแล้ว");
+        const el = document.getElementById("ep-" + lastCopied);
+
+        if (el) {
+          el.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+
+          showToast("ไปอันที่คัดลอกล่าสุดแล้ว");
         }
-      }, 50);
+      }, 80);
     }
 
-    buildBtn.addEventListener("click", buildEpisodes);
-    saveBtn.addEventListener("click", saveText);
-    clearBtn.addEventListener("click", clearAll);
-    copyAllBtn.addEventListener("click", copyAll);
-    goLastCopiedBtn.addEventListener("click", goLastCopied);
-    searchBox.addEventListener("input", renderEpisodes);
+    async function clearAll() {
+      const ok = confirm("ล้างข้อมูลทั้งหมดใช่ไหม?");
 
-    window.addEventListener("beforeunload", () => {
-      localStorage.setItem(STORAGE_TEXT, rawText.value);
+      if (!ok) {
+        return;
+      }
+
+      mainTitle = "";
+      episodes = [];
+      lastCopied = -1;
+      readMap = {};
+      onlyUnread = false;
+
+      pasteBox.value = "";
+      searchBox.value = "";
+      previewPanel.style.display = "none";
+      showUnreadBtn.textContent = "แสดงเฉพาะยังไม่อ่าน";
+
+      await deleteValue("mainTitle");
+      await deleteValue("episodes");
+      await deleteValue("lastCopied");
+      await deleteValue("readMap");
+
+      render();
+      showToast("ล้างแล้ว");
+    }
+
+    fileInput.addEventListener("change", async () => {
+      const file = fileInput.files[0];
+
+      if (!file) {
+        return;
+      }
+
+      statusEl.textContent = "กำลังอ่านไฟล์...";
+
+      const text = await file.text();
+
+      await buildFromText(text);
+
+      fileInput.value = "";
     });
 
-    const savedText = localStorage.getItem(STORAGE_TEXT);
-    if (savedText) {
-      rawText.value = savedText;
-      episodes = parseEpisodes(savedText);
-      renderEpisodes();
-    } else {
-      renderEpisodes();
+    clipboardBtn.addEventListener("click", async () => {
+      if (!navigator.clipboard || !navigator.clipboard.readText) {
+        showToast("เครื่องนี้ใช้ Clipboard โดยตรงไม่ได้ ให้ใช้เลือกไฟล์หรือวางข้อความแทน");
+        return;
+      }
+
+      try {
+        statusEl.textContent = "กำลังอ่านจาก Clipboard...";
+
+        const text = await navigator.clipboard.readText();
+
+        await buildFromText(text);
+      } catch (e) {
+        showToast("อ่าน Clipboard ไม่ได้ ให้ใช้เลือกไฟล์หรือวางข้อความแทน");
+      }
+    });
+
+    pasteBuildBtn.addEventListener("click", async () => {
+      await buildFromText(pasteBox.value);
+    });
+
+    clearPasteBtn.addEventListener("click", () => {
+      pasteBox.value = "";
+      showToast("ล้างช่องวางข้อความแล้ว");
+    });
+
+    searchBox.addEventListener("input", render);
+    goLastBtn.addEventListener("click", goLastCopied);
+    clearBtn.addEventListener("click", clearAll);
+
+    showUnreadBtn.addEventListener("click", () => {
+      onlyUnread = !onlyUnread;
+      showUnreadBtn.textContent = onlyUnread ? "แสดงทั้งหมด" : "แสดงเฉพาะยังไม่อ่าน";
+
+      render();
+    });
+
+    async function init() {
+      const savedMainTitle = await loadValue("mainTitle");
+      const savedEpisodes = await loadValue("episodes");
+      const savedLast = await loadValue("lastCopied");
+      const savedReadMap = await loadValue("readMap");
+
+      if (typeof savedMainTitle === "string") {
+        mainTitle = savedMainTitle;
+      }
+
+      if (Array.isArray(savedEpisodes)) {
+        episodes = savedEpisodes;
+      }
+
+      if (Number.isInteger(savedLast)) {
+        lastCopied = savedLast;
+      }
+
+      if (savedReadMap && typeof savedReadMap === "object") {
+        readMap = savedReadMap;
+      }
+
+      render();
     }
+
+    init();
   </script>
 </body>
 </html>
